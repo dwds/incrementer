@@ -1,5 +1,5 @@
 import React from "react";
-import {IconButton, OutlinedInput, InputLabel, FormControl, FormHelperText, makeStyles} from "@material-ui/core";
+import {IconButton, Input, InputLabel, FormControl, FormHelperText, makeStyles} from "@material-ui/core";
 import {AddCircleRounded as IncreaseIcon, RemoveCircleRounded as DecreaseIcon} from "@material-ui/icons";
 
 const useStyles = makeStyles({
@@ -7,6 +7,17 @@ const useStyles = makeStyles({
     position: "static",
     transform: "none"
   },
+  input: {
+  },
+  inputElement: {
+      width: "3ch",
+      textAlign: "center",
+      "-moz-appearance": "textfield",
+      "&::-webkit-inner-spin-button, &::-webkit-outer-spin-button": {
+          "-webkit-appearance": "none",
+          margin: 0
+      }
+  }
 });
 
 function App() {
@@ -19,11 +30,20 @@ function App() {
                 Label
             </InputLabel>
             <div>
-                <IconButton>
+                <IconButton
+                    color="primary">
                     <DecreaseIcon />
                 </IconButton>
-                <OutlinedInput />
-                <IconButton>
+                <Input
+                    classes={{
+                        root: classes.input,
+                        input: classes.inputElement
+                    }}
+                    defaultValue={0}
+                    type="number"
+                />
+                <IconButton
+                    color="primary">
                     <IncreaseIcon />
                 </IconButton>
             </div>
