@@ -1,5 +1,6 @@
-import React from "react";
+import React, {useRef} from "react";
 import PropTypes from 'prop-types';
+import {v4 as uuidv4} from 'uuid';
 import {IconButton, Input, InputLabel, FormControl, FormHelperText, makeStyles} from "@material-ui/core";
 import {AddCircleRounded as IncreaseIcon, RemoveCircleRounded as DecreaseIcon} from "@material-ui/icons";
 
@@ -23,7 +24,8 @@ const useStyles = makeStyles({
 
 function Incrementer({
     label,
-    // id = uuidv4(),
+    id = useRef(uuidv4()).current,
+    helperText = null,
     max = null,
     min = 0,
     onChange = null,
@@ -32,11 +34,13 @@ function Incrementer({
     value = 0
 }) {
     const classes = useStyles();
+    const helperTextId = helperText && id ? `${id}-helper-text` : null;
     return (
         <FormControl>
             <InputLabel
                 className={classes.label}
-                shrink={false}>
+                disableAnimation
+                htmlFor={id}>
                 {label}
             </InputLabel>
             <div>
@@ -47,10 +51,12 @@ function Incrementer({
                     <DecreaseIcon />
                 </IconButton>
                 <Input
+                    aria-describedby={helperTextId}
                     classes={{
                         root: classes.input,
                         input: classes.inputElement
                     }}
+                    id={id}
                     max={max}
                     min={min}
                     onChange={onChange}
@@ -64,7 +70,12 @@ function Incrementer({
                     <IncreaseIcon />
                 </IconButton>
             </div>
-            <FormHelperText>helper text</FormHelperText>
+            {helperText &&
+                <FormHelperText
+                    id={helperTextId}>
+                    {helperText}
+                </FormHelperText>
+            }
         </FormControl>
     )
 }
@@ -72,6 +83,7 @@ function Incrementer({
 Incrementer.propTypes = {
     label: PropTypes.string.isRequired,
     id: PropTypes.string,
+    helperText: PropTypes.string,
     max: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     min: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     onChange: PropTypes.func,

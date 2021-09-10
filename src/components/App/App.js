@@ -21,6 +21,7 @@ function App() {
 
     return (
         <Incrementer
+            helperText="It's helper text."
             label="Incrementer"
             onChange={handleChange}
             onDecreaseClick={handleDecreaseClick}
