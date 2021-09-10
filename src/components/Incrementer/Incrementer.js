@@ -30,17 +30,24 @@ function simulateChange(input, onChange) {
 
 function Incrementer({
     label,
+    DecreaseIconButtonProps = null,
+    FormHelperTextProps = null,
     id = useRef(uuidv4()).current,
+    IncreaseIconButtonProps = null,
+    InputLabelProps = null,
+    InputProps = null,
     helperText = null,
     max = null,
     min = 0,
     onChange = null,
     step = 1,
-    value = 0
+    value = 0,
+    ...other
 }) {
     const inputRef = useRef(null);
     const classes = useStyles();
     const helperTextId = helperText && id ? `${id}-helper-text` : null;
+    const {inputProps: inputElementProps, ...InputComponentProps} = InputProps || {};
 
     const handleDecreaseClick = () => {
         inputRef.current?.stepDown();
@@ -53,11 +60,12 @@ function Incrementer({
     }
 
     return (
-        <FormControl>
+        <FormControl {...other}>
             <InputLabel
                 className={classes.label}
                 disableAnimation
-                htmlFor={id}>
+                htmlFor={id}
+                {...InputLabelProps}>
                 {label}
             </InputLabel>
             <div>
@@ -68,7 +76,8 @@ function Incrementer({
                     disableRipple
                     edge="start"
                     onClick={handleDecreaseClick}
-                    tabIndex={-1}>
+                    tabIndex={-1}
+                    {...DecreaseIconButtonProps}>
                     <DecreaseIcon />
                 </IconButton>
                 <Input
@@ -81,12 +90,14 @@ function Incrementer({
                     inputProps={{
                         max,
                         min,
-                        step
+                        step,
+                        ...inputElementProps
                     }}
                     onChange={onChange}
                     inputRef={inputRef}
                     type="number"
                     value={value}
+                    {...InputComponentProps}
                 />
                 <IconButton
                     aria-label={`Increase ${label}`}
@@ -95,13 +106,15 @@ function Incrementer({
                     disableRipple
                     edge="end"
                     onClick={handleIncreaseClick}
-                    tabIndex={-1}>
+                    tabIndex={-1}
+                    {...IncreaseIconButtonProps}>
                     <IncreaseIcon />
                 </IconButton>
             </div>
             {helperText &&
                 <FormHelperText
-                    id={helperTextId}>
+                    id={helperTextId}
+                    {...FormHelperTextProps}>
                     {helperText}
                 </FormHelperText>
             }
@@ -111,7 +124,12 @@ function Incrementer({
 
 Incrementer.propTypes = {
     label: PropTypes.string.isRequired,
+    DecreaseIconButtonProps: PropTypes.object,
+    FormHelperTextProps: PropTypes.object,
     id: PropTypes.string,
+    IncreaseIconButtonProps: PropTypes.object,
+    InputLabelProps: PropTypes.object,
+    InputProps: PropTypes.object,
     helperText: PropTypes.string,
     max: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     min: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
