@@ -67,7 +67,8 @@ function Incrementer({
                     disabled={value <= min}
                     disableRipple
                     edge="start"
-                    onClick={handleDecreaseClick}>
+                    onClick={handleDecreaseClick}
+                    tabIndex={-1}>
                     <DecreaseIcon />
                 </IconButton>
                 <Input
@@ -93,7 +94,8 @@ function Incrementer({
                     disabled={max && value >= max}
                     disableRipple
                     edge="end"
-                    onClick={handleIncreaseClick}>
+                    onClick={handleIncreaseClick}
+                    tabIndex={-1}>
                     <IncreaseIcon />
                 </IconButton>
             </div>
