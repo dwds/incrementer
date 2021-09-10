@@ -12,7 +12,7 @@ function App() {
     return (
         <Incrementer
             helperText="It's helper text."
-            label="Incrementer"
+            label="Tickets"
             max={10}
             onChange={handleChange}
             value={value}

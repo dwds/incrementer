@@ -62,8 +62,11 @@ function Incrementer({
             </InputLabel>
             <div>
                 <IconButton
+                    aria-label={`Decrease ${label}`}
                     color="primary"
                     disabled={value <= min}
+                    disableRipple
+                    edge="start"
                     onClick={handleDecreaseClick}>
                     <DecreaseIcon />
                 </IconButton>
@@ -85,8 +88,11 @@ function Incrementer({
                     value={value}
                 />
                 <IconButton
+                    aria-label={`Increase ${label}`}
                     color="primary"
                     disabled={max && value >= max}
+                    disableRipple
+                    edge="end"
                     onClick={handleIncreaseClick}>
                     <IncreaseIcon />
                 </IconButton>
