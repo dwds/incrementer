@@ -2,8 +2,6 @@ import React, {useState} from "react";
 // import styles from './App.module.css';
 import {Incrementer} from "../Incrementer";
 
-const INCREMENT = 1;
-
 function App() {
     const [value, setValue] = useState(0);
 
@@ -11,21 +9,12 @@ function App() {
         setValue(event.target.value);
     }
 
-    const handleDecreaseClick = () => {
-        setValue(prevValue => prevValue - INCREMENT);
-    }
-
-    const handleIncreaseClick = () => {
-        setValue(prevValue => prevValue + INCREMENT);
-    }
-
     return (
         <Incrementer
             helperText="It's helper text."
             label="Incrementer"
+            max={10}
             onChange={handleChange}
-            onDecreaseClick={handleDecreaseClick}
-            onIncreaseClick={handleIncreaseClick}
             value={value}
         />
     )

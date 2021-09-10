@@ -22,6 +22,12 @@ const useStyles = makeStyles({
   }
 });
 
+function simulateChange(input, onChange) {
+    const forcedChangeEvent = new Event("change");
+    input.dispatchEvent(forcedChangeEvent);
+    onChange?.(forcedChangeEvent);
+}
+
 function Incrementer({
     label,
     id = useRef(uuidv4()).current,
@@ -29,12 +35,23 @@ function Incrementer({
     max = null,
     min = 0,
     onChange = null,
-    onDecreaseClick = null,
-    onIncreaseClick = null,
+    step = 1,
     value = 0
 }) {
+    const inputRef = useRef(null);
     const classes = useStyles();
     const helperTextId = helperText && id ? `${id}-helper-text` : null;
+
+    const handleDecreaseClick = () => {
+        inputRef.current?.stepDown();
+        simulateChange(inputRef.current, onChange)
+    }
+
+    const handleIncreaseClick = () => {
+        inputRef.current?.stepUp();
+        simulateChange(inputRef.current, onChange)
+    }
+
     return (
         <FormControl>
             <InputLabel
@@ -47,7 +64,7 @@ function Incrementer({
                 <IconButton
                     color="primary"
                     disabled={value <= min}
-                    onClick={onDecreaseClick}>
+                    onClick={handleDecreaseClick}>
                     <DecreaseIcon />
                 </IconButton>
                 <Input
@@ -57,16 +74,20 @@ function Incrementer({
                         input: classes.inputElement
                     }}
                     id={id}
-                    max={max}
-                    min={min}
+                    inputProps={{
+                        max,
+                        min,
+                        step
+                    }}
                     onChange={onChange}
+                    inputRef={inputRef}
                     type="number"
                     value={value}
                 />
                 <IconButton
                     color="primary"
                     disabled={max && value >= max}
-                    onClick={onIncreaseClick}>
+                    onClick={handleIncreaseClick}>
                     <IncreaseIcon />
                 </IconButton>
             </div>
@@ -89,6 +110,7 @@ Incrementer.propTypes = {
     onChange: PropTypes.func,
     onDecreaseClick: PropTypes.func,
     onIncreaseClick: PropTypes.func,
+    step: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     value: PropTypes.any
 };
 
