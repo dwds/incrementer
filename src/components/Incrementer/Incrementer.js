@@ -23,7 +23,7 @@ const useStyles = makeStyles({
 });
 
 function simulateChange(input, onChange) {
-    const forcedChangeEvent = new Event("change");
+    const forcedChangeEvent = new Event("change"); // eslint-disable-line no-undef
     input.dispatchEvent(forcedChangeEvent);
     onChange?.(forcedChangeEvent);
 }
