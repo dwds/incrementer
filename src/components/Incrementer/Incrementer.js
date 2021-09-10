@@ -1,5 +1,4 @@
 import React from "react";
-import styles from './Incrementer.module.css';
 import {IconButton, OutlinedInput, InputLabel, FormControl, FormHelperText, makeStyles} from "@material-ui/core";
 import {AddCircleRounded as IncreaseIcon, RemoveCircleRounded as DecreaseIcon} from "@material-ui/icons";
 
@@ -19,7 +18,7 @@ function App() {
                 shrink={false}>
                 Label
             </InputLabel>
-            <div className={styles.container}>
+            <div>
                 <IconButton>
                     <DecreaseIcon />
                 </IconButton>
