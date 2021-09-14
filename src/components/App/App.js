@@ -11,7 +11,7 @@ function App() {
 
     return (
         <Incrementer
-            helperText="It's helper text."
+            helperText="Maximum: 10"
             label="Tickets"
             max={10}
             onChange={handleChange}

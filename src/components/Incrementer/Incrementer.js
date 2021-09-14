@@ -82,6 +82,9 @@ function Incrementer({
                 </IconButton>
                 <Input
                     aria-describedby={helperTextId}
+                    aria-valuemin={min}
+                    aria-valuemax={max}
+                    aria-valuenow={value}
                     classes={{
                         root: classes.input,
                         input: classes.inputElement
@@ -93,8 +96,8 @@ function Incrementer({
                         step,
                         ...inputElementProps
                     }}
-                    onChange={onChange}
                     inputRef={inputRef}
+                    onChange={onChange}
                     type="number"
                     value={value}
                     {...InputComponentProps}
