@@ -23,9 +23,11 @@ const useStyles = makeStyles({
 });
 
 function simulateChange(input, onChange) {
-    const forcedChangeEvent = new Event("change"); // eslint-disable-line no-undef
-    input.dispatchEvent(forcedChangeEvent);
-    onChange?.(forcedChangeEvent);
+    if(input) {
+        const forcedChangeEvent = new Event("change"); // eslint-disable-line no-undef
+        input.dispatchEvent(forcedChangeEvent);
+        onChange?.(forcedChangeEvent);
+    }
 }
 
 function Incrementer({
@@ -41,6 +43,7 @@ function Incrementer({
     min = 0,
     onChange = null,
     step = 1,
+    stepLarge = 5,
     value = 0,
     ...other
 }) {
@@ -51,12 +54,54 @@ function Incrementer({
 
     const handleDecreaseClick = () => {
         inputRef.current?.stepDown();
-        simulateChange(inputRef.current, onChange)
+        simulateChange(inputRef.current, onChange);
     }
 
     const handleIncreaseClick = () => {
         inputRef.current?.stepUp();
-        simulateChange(inputRef.current, onChange)
+        simulateChange(inputRef.current, onChange);
+    }
+
+    const handleKeyDown = (event) => {
+        if(inputRef.current) {
+            let preventDefault = false;
+            let simulateChange = false;
+            switch (event.code) {
+                case "PageDown":
+                    inputRef.current.stepDown(stepLarge);
+                    simulateChange = true;
+                    preventDefault = true;
+                    break;
+                case "PageUp":
+                    inputRef.current.stepUp(stepLarge);
+                    simulateChange = true;
+                    preventDefault = true;
+                    break;
+                case "Home":
+                    if(min) {
+                        inputRef.current.value = min;
+                        simulateChange = true;
+                    }
+                    preventDefault = true;
+                    break;
+                case "End":
+                    if(max) {
+                        inputRef.current.value = max;
+                        simulateChange = true;
+                    }
+                    preventDefault = true;
+                    break;
+                default:
+                    break;
+            }
+            if (preventDefault) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            if (simulateChange) {
+                simulateChange(inputRef.current, onChange);
+            }
+        }
     }
 
     return (
@@ -98,6 +143,7 @@ function Incrementer({
                     }}
                     inputRef={inputRef}
                     onChange={onChange}
+                    onKeyDown={handleKeyDown}
                     type="number"
                     value={value}
                     {...InputComponentProps}
@@ -140,6 +186,7 @@ Incrementer.propTypes = {
     onDecreaseClick: PropTypes.func,
     onIncreaseClick: PropTypes.func,
     step: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    stepLarge: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     value: PropTypes.any
 };
 
