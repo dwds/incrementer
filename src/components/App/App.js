@@ -11,6 +11,7 @@ function App() {
 
     return (
         <Incrementer
+            error
             helperText="Maximum: 10"
             label="Tickets"
             max={10}

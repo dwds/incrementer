@@ -1,26 +1,56 @@
 import React, {useRef} from "react";
 import PropTypes from 'prop-types';
 import {v4 as uuidv4} from 'uuid';
-import {IconButton, Input, InputLabel, FormControl, FormHelperText, makeStyles} from "@material-ui/core";
+import {IconButton, InputBase, InputLabel, FormControl, FormHelperText, makeStyles} from "@material-ui/core";
 import {AddCircleRounded as IncreaseIcon, RemoveCircleRounded as DecreaseIcon} from "@material-ui/icons";
 
-const useStyles = makeStyles({
-  label: {
-    position: "static",
-    transform: "none"
-  },
-  input: {
-  },
-  inputElement: {
-      width: "3ch",
-      textAlign: "center",
-      "-moz-appearance": "textfield",
-      "&::-webkit-inner-spin-button, &::-webkit-outer-spin-button": {
+const useStyles = makeStyles(theme => ({
+    root: {
+        color: "black",
+        "&:focus-within $label": {
+            color: theme.palette.primary.main
+        }
+    },
+    decreaseButton: {
+        paddingRight: 6
+    },
+    helperText: {
+        color: "inherit"
+    },
+    increaseButton: {
+        paddingLeft: 6
+    },
+    incrementButton: {
+        paddingBottom: 0,
+        paddingTop: 0
+    },
+    input: {},
+    inputElement: {
+        paddingBottom: 0,
+        paddingTop: 0,
+        width: "3ch",
+        textAlign: "center",
+        "-moz-appearance": "textfield",
+        "&::-webkit-inner-spin-button, &::-webkit-outer-spin-button": {
           "-webkit-appearance": "none",
           margin: 0
-      }
-  }
-});
+        }
+    },
+    label: {
+        position: "static",
+        transform: "none",
+        color: "inherit"
+    },
+    spinbuttonContainer: {
+        display: "flex",
+        marginTop: 6,
+        paddingBottom: 3,
+        borderBottom: "2px solid transparent",
+        "&:focus-within": {
+            borderColor: theme.palette.primary.main,
+        }
+    }
+}));
 
 function simulateChange(input, onChange) {
     if(input) {
@@ -32,7 +62,9 @@ function simulateChange(input, onChange) {
 
 function Incrementer({
     label,
+    className: classNameProp = null,
     DecreaseIconButtonProps = null,
+    error = false,
     FormHelperTextProps = null,
     id = useRef(uuidv4()).current,
     IncreaseIconButtonProps = null,
@@ -105,7 +137,10 @@ function Incrementer({
     }
 
     return (
-        <FormControl {...other}>
+        <FormControl
+            error={error}
+            className={[classes.root, classNameProp].join(" ")}
+            {...other}>
             <InputLabel
                 className={classes.label}
                 disableAnimation
@@ -113,9 +148,10 @@ function Incrementer({
                 {...InputLabelProps}>
                 {label}
             </InputLabel>
-            <div>
+            <div className={classes.spinbuttonContainer}>
                 <IconButton
                     aria-label={`Decrease ${label}`}
+                    className={[classes.incrementButton, classes.decreaseButton].join(" ")}
                     color="primary"
                     disabled={value <= min}
                     disableRipple
@@ -125,7 +161,7 @@ function Incrementer({
                     {...DecreaseIconButtonProps}>
                     <DecreaseIcon />
                 </IconButton>
-                <Input
+                <InputBase
                     aria-describedby={helperTextId}
                     aria-valuemin={min}
                     aria-valuemax={max}
@@ -150,6 +186,7 @@ function Incrementer({
                 />
                 <IconButton
                     aria-label={`Increase ${label}`}
+                    className={[classes.incrementButton, classes.increaseButton].join(" ")}
                     color="primary"
                     disabled={max && value >= max}
                     disableRipple
@@ -162,6 +199,7 @@ function Incrementer({
             </div>
             {helperText &&
                 <FormHelperText
+                    className={classes.helperText}
                     id={helperTextId}
                     {...FormHelperTextProps}>
                     {helperText}
@@ -173,7 +211,9 @@ function Incrementer({
 
 Incrementer.propTypes = {
     label: PropTypes.string.isRequired,
+    className: PropTypes.string,
     DecreaseIconButtonProps: PropTypes.object,
+    error: PropTypes.bool,
     FormHelperTextProps: PropTypes.object,
     id: PropTypes.string,
     IncreaseIconButtonProps: PropTypes.object,
