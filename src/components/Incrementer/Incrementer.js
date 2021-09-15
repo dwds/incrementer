@@ -1,34 +1,18 @@
 import React, {useRef} from "react";
 import PropTypes from 'prop-types';
 import {v4 as uuidv4} from 'uuid';
-import {IconButton, InputBase, InputLabel, FormControl, FormHelperText, makeStyles} from "@material-ui/core";
+import {IconButton, InputAdornment, Input, InputLabel, FormControl, FormHelperText, makeStyles} from "@material-ui/core";
 import {AddCircleRounded as IncreaseIcon, RemoveCircleRounded as DecreaseIcon} from "@material-ui/icons";
 
 const useStyles = makeStyles(theme => ({
     root: {
-        color: "black",
-        "&:focus-within $label": {
-            color: theme.palette.primary.main
-        }
-    },
-    decreaseButton: {
-        paddingRight: 6
+        color: theme.palette.text.primary
     },
     helperText: {
         color: "inherit"
     },
-    increaseButton: {
-        paddingLeft: 6
-    },
-    incrementButton: {
-        paddingBottom: 0,
-        paddingTop: 0
-    },
-    input: {},
     inputElement: {
-        paddingBottom: 0,
-        paddingTop: 0,
-        width: "3ch",
+        width: "2ch",
         textAlign: "center",
         "-moz-appearance": "textfield",
         "&::-webkit-inner-spin-button, &::-webkit-outer-spin-button": {
@@ -40,15 +24,6 @@ const useStyles = makeStyles(theme => ({
         position: "static",
         transform: "none",
         color: "inherit"
-    },
-    spinbuttonContainer: {
-        display: "flex",
-        marginTop: 6,
-        paddingBottom: 3,
-        borderBottom: "2px solid transparent",
-        "&:focus-within": {
-            borderColor: theme.palette.primary.main,
-        }
     }
 }));
 
@@ -149,19 +124,7 @@ function Incrementer({
                 {label}
             </InputLabel>
             <div className={classes.spinbuttonContainer}>
-                <IconButton
-                    aria-label={`Decrease ${label}`}
-                    className={[classes.incrementButton, classes.decreaseButton].join(" ")}
-                    color="primary"
-                    disabled={value <= min}
-                    disableRipple
-                    edge="start"
-                    onClick={handleDecreaseClick}
-                    tabIndex={-1}
-                    {...DecreaseIconButtonProps}>
-                    <DecreaseIcon />
-                </IconButton>
-                <InputBase
+                <Input
                     aria-describedby={helperTextId}
                     aria-valuemin={min}
                     aria-valuemax={max}
@@ -170,6 +133,22 @@ function Incrementer({
                         root: classes.input,
                         input: classes.inputElement
                     }}
+                    endAdornment={
+                        <InputAdornment position="end">
+                            <IconButton
+                                aria-label={`Increase ${label}`}
+                                className={[classes.incrementButton, classes.increaseButton].join(" ")}
+                                color="primary"
+                                disabled={max && value >= max}
+                                disableRipple
+                                edge="end"
+                                onClick={handleIncreaseClick}
+                                tabIndex={-1}
+                                {...IncreaseIconButtonProps}>
+                                <IncreaseIcon />
+                            </IconButton>
+                        </InputAdornment>
+                    }
                     id={id}
                     inputProps={{
                         max,
@@ -180,22 +159,26 @@ function Incrementer({
                     inputRef={inputRef}
                     onChange={onChange}
                     onKeyDown={handleKeyDown}
+                    startAdornment={
+                        <InputAdornment position="start">
+                            <IconButton
+                                aria-label={`Decrease ${label}`}
+                                className={[classes.incrementButton, classes.decreaseButton].join(" ")}
+                                color="primary"
+                                disabled={value <= min}
+                                disableRipple
+                                edge="start"
+                                onClick={handleDecreaseClick}
+                                tabIndex={-1}
+                                {...DecreaseIconButtonProps}>
+                                <DecreaseIcon />
+                            </IconButton>
+                        </InputAdornment>
+                    }
                     type="number"
                     value={value}
                     {...InputComponentProps}
                 />
-                <IconButton
-                    aria-label={`Increase ${label}`}
-                    className={[classes.incrementButton, classes.increaseButton].join(" ")}
-                    color="primary"
-                    disabled={max && value >= max}
-                    disableRipple
-                    edge="end"
-                    onClick={handleIncreaseClick}
-                    tabIndex={-1}
-                    {...IncreaseIconButtonProps}>
-                    <IncreaseIcon />
-                </IconButton>
             </div>
             {helperText &&
                 <FormHelperText
