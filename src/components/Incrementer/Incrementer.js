@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme => ({
         color: "inherit"
     },
     inputElement: {
-        width: "2ch",
+        width: props => props.fullWidth  ? null : `${props.max.toString().length}ch`,
         textAlign: "center",
         "-moz-appearance": "textfield",
         "&::-webkit-inner-spin-button, &::-webkit-outer-spin-button": {
@@ -64,6 +64,7 @@ const Incrementer = forwardRef(({
     label,
     decreaseIcon: DecreaseIcon = DefaultDecreaseIcon,
     disabled = false,
+    fullWidth = false,
     id = useRef(uuidv4()).current,
     increaseIcon: IncreaseIcon = DefaultIncreaseIcon,
     inputProps = null,
@@ -79,7 +80,7 @@ const Incrementer = forwardRef(({
     ...other
 }, ref) => {
     const innerInputRef = useForwardedRef(inputRef);
-    const classes = useStyles();
+    const classes = useStyles({fullWidth, max});
 
     const handleIncrement = (direction: "increase", stepMultiplier: 1) => () => {
         switch (direction) {
@@ -130,7 +131,7 @@ const Incrementer = forwardRef(({
         <TextField
             disabled={disabled}
             id={id}
-            label={label}
+            fullWidth={fullWidth}
             inputProps={{
                 "aria-valuemin": min,
                 "aria-valuemax": max,
@@ -180,6 +181,7 @@ const Incrementer = forwardRef(({
                 ...otherInputProps
             }}
             inputRef={innerInputRef}
+            label={label}
             onChange={onChange}
             ref={ref}
             type="number"
@@ -194,6 +196,7 @@ Incrementer.propTypes = {
     label: PropTypes.string.isRequired,
     decreaseIcon: PropTypes.node,
     disabled: PropTypes.bool,
+    fullWidth: PropTypes.bool,
     id: PropTypes.string,
     increaseIcon: PropTypes.node,
     inputProps: PropTypes.object,
