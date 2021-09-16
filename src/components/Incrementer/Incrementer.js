@@ -51,7 +51,6 @@ function isNumbery(value) {
     return (typeof value === "number" || typeof value === "string") && !isNaN(value);
 }
 
-
 const SHORTCUT_KEYS = {
     LARGE_STEP_INCREASE: "PageUp",
     LARGE_STEP_DECREASE: "PageDown",
