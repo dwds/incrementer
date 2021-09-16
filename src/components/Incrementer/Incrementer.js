@@ -113,14 +113,14 @@ function Incrementer({
 
     return (
         <TextField
-            aria-valuemin={min}
-            aria-valuemax={max}
-            aria-valuenow={value}
             disabled={disabled}
             id={id}
             onKeyDown={handleKeyDown}
             label={label}
             inputProps={{
+                "aria-valuemin": min,
+                "aria-valuemax": max,
+                "aria-valuenow": value,
                 max,
                 min,
                 step,
