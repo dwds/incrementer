@@ -10,12 +10,7 @@ function App() {
         setValue(event.target.value);
     }
 
-    const handleClick = () => {
-        inputRef.current.focus();
-    }
-
     return (
-        <>
         <Incrementer
             inputRef={inputRef}
             helperText="Maximum: 10"
@@ -24,9 +19,6 @@ function App() {
             onChange={handleChange}
             value={value}
         />
-
-        <button onClick={handleClick}>Focus</button>
-        </>
     )
 }
 

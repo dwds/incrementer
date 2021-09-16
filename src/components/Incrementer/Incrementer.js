@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from "react";
+import React, {forwardRef, useEffect, useRef} from "react";
 import PropTypes from 'prop-types';
 import {v4 as uuidv4} from 'uuid';
 import {IconButton, InputAdornment, TextField, makeStyles} from "@material-ui/core";
@@ -60,7 +60,7 @@ const SHORTCUT_KEYS = {
     GO_TO_MIN: "Home"
 };
 
-function Incrementer({
+const Incrementer = forwardRef(({
     label,
     decreaseIcon: DecreaseIcon = DefaultDecreaseIcon,
     disabled = false,
@@ -77,7 +77,7 @@ function Incrementer({
     userFriendlyValue = null,
     value = "0",
     ...other
-}) {
+}, ref) => {
     const innerInputRef = useForwardedRef(inputRef);
     const classes = useStyles();
 
@@ -181,13 +181,14 @@ function Incrementer({
             }}
             inputRef={innerInputRef}
             onChange={onChange}
+            ref={ref}
             type="number"
             value={value}
             variant="outlined"
             {...other}
         />
     )
-}
+});
 
 Incrementer.propTypes = {
     label: PropTypes.string.isRequired,
