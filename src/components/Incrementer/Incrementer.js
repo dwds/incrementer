@@ -55,6 +55,7 @@ function Incrementer({
     max = null,
     min = 0,
     onChange = null,
+    onKeyDown = null,
     step = 1,
     stepLarge = 5,
     value = "0",
@@ -104,6 +105,7 @@ function Incrementer({
                     break;
             }
         }
+        onKeyDown?.();
     }
 
     const {classes: InputClasses, ...otherInputProps} = InputProps || {};
@@ -114,11 +116,11 @@ function Incrementer({
             aria-valuemax={max}
             aria-valuenow={value}
             id={id}
+            onKeyDown={handleKeyDown}
             label={label}
             inputProps={{
                 max,
                 min,
-                onKeyDown: handleKeyDown,
                 step,
                 ...inputProps
             }}
@@ -177,6 +179,7 @@ Incrementer.propTypes = {
     max: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     min: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     onChange: PropTypes.func,
+    onKeyDown: PropTypes.func,
     step: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     stepLarge: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     value: PropTypes.any
