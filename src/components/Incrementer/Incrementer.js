@@ -4,9 +4,8 @@ import {v4 as uuidv4} from 'uuid';
 import {IconButton, InputAdornment, TextField, makeStyles} from "@material-ui/core";
 import {AddCircleRounded as DefaultIncreaseIcon, RemoveCircleRounded as DefaultDecreaseIcon} from "@material-ui/icons";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
     root: {
-        color: theme.palette.text.primary,
         width: props => props.fullWidth  ? null : `calc(${props.max.toString().length}ch + 125px)`,
     },
     helperText: {
@@ -25,7 +24,7 @@ const useStyles = makeStyles(theme => ({
         transform: "none",
         color: "inherit"
     }
-}));
+});
 
 function useForwardedRef(ref) {
     const innerRef = useRef(null);
