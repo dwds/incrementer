@@ -2,7 +2,7 @@ import React, {useRef} from "react";
 import PropTypes from 'prop-types';
 import {v4 as uuidv4} from 'uuid';
 import {IconButton, InputAdornment, TextField, makeStyles} from "@material-ui/core";
-import {AddCircleRounded as IncreaseIcon, RemoveCircleRounded as DecreaseIcon} from "@material-ui/icons";
+import {AddCircleRounded as DefaultIncreaseIcon, RemoveCircleRounded as DefaultDecreaseIcon} from "@material-ui/icons";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -49,8 +49,10 @@ const SHORTCUT_KEYS = {
 
 function Incrementer({
     label,
+    decreaseIcon: DecreaseIcon = DefaultDecreaseIcon,
     disabled = false,
     id = useRef(uuidv4()).current,
+    increaseIcon: IncreaseIcon = DefaultIncreaseIcon,
     inputProps = null,
     InputProps = null,
     max = null,
@@ -175,8 +177,10 @@ function Incrementer({
 
 Incrementer.propTypes = {
     label: PropTypes.string.isRequired,
+    decreaseIcon: PropTypes.node,
     disabled: PropTypes.bool,
     id: PropTypes.string,
+    increaseIcon: PropTypes.node,
     inputProps: PropTypes.object,
     InputProps: PropTypes.object,
     max: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
