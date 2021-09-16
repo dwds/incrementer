@@ -56,7 +56,6 @@ function Incrementer({
     max = null,
     min = 0,
     onChange = null,
-    onKeyDown = null,
     step = 1,
     stepLarge = 5,
     value = "0",
@@ -106,7 +105,6 @@ function Incrementer({
                     break;
             }
         }
-        onKeyDown?.();
     }
 
     const {classes: InputClasses, ...otherInputProps} = InputProps || {};
@@ -115,7 +113,6 @@ function Incrementer({
         <TextField
             disabled={disabled}
             id={id}
-            onKeyDown={handleKeyDown}
             label={label}
             inputProps={{
                 "aria-valuemin": min,
@@ -123,6 +120,7 @@ function Incrementer({
                 "aria-valuenow": value,
                 max,
                 min,
+                onKeyDown: handleKeyDown,
                 step,
                 ...inputProps
             }}
@@ -182,7 +180,6 @@ Incrementer.propTypes = {
     max: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     min: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     onChange: PropTypes.func,
-    onKeyDown: PropTypes.func,
     step: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     stepLarge: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     value: PropTypes.any
