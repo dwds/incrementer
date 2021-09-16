@@ -1,4 +1,4 @@
-import React, {useRef} from "react";
+import React, {useEffect, useRef} from "react";
 import PropTypes from 'prop-types';
 import {v4 as uuidv4} from 'uuid';
 import {IconButton, InputAdornment, TextField, makeStyles} from "@material-ui/core";
@@ -26,6 +26,19 @@ const useStyles = makeStyles(theme => ({
         color: "inherit"
     }
 }));
+
+function useForwardedRef(ref) {
+    const innerRef = useRef(null);
+    useEffect(() => {
+        if(!ref) return;
+        if(typeof ref === "function") {
+            ref(innerRef.current);
+        } else {
+            ref.current = innerRef.current;
+        }
+    });
+    return innerRef;
+}
 
 function simulateChange(input, onChange) {
     if(input) {
@@ -55,6 +68,7 @@ function Incrementer({
     increaseIcon: IncreaseIcon = DefaultIncreaseIcon,
     inputProps = null,
     InputProps = null,
+    inputRef = null,
     max = null,
     min = 0,
     onChange = null,
@@ -64,25 +78,25 @@ function Incrementer({
     value = "0",
     ...other
 }) {
-    const inputRef = useRef(null);
+    const innerInputRef = useForwardedRef(inputRef);
     const classes = useStyles();
 
     const handleIncrement = (direction: "increase", stepMultiplier: 1) => () => {
         switch (direction) {
             case "increase":
-                inputRef.current?.stepUp(stepMultiplier);
+                innerInputRef.current?.stepUp(stepMultiplier);
                 break;
             case "decrease":
-                inputRef.current?.stepDown(stepMultiplier);
+                innerInputRef.current?.stepDown(stepMultiplier);
                 break;
             default:
                 break;
         }
-        simulateChange(inputRef.current, onChange);
+        simulateChange(innerInputRef.current, onChange);
     }
 
     const handleKeyDown = (event) => {
-        if(inputRef.current && Object.values(SHORTCUT_KEYS).includes(event.code)) {
+        if(innerInputRef.current && Object.values(SHORTCUT_KEYS).includes(event.code)) {
             event.preventDefault();
             event.stopPropagation();
             switch (event.code) {
@@ -94,14 +108,14 @@ function Incrementer({
                     break;
                 case SHORTCUT_KEYS.GO_TO_MAX:
                     if(isNumbery(max)) {
-                        inputRef.current.value = max;
-                        simulateChange(inputRef.current, onChange);
+                        innerInputRef.current.value = max;
+                        simulateChange(innerInputRef.current, onChange);
                     }
                     break;
                 case SHORTCUT_KEYS.GO_TO_MIN:
                     if(isNumbery(min)) {
-                        inputRef.current.value = min;
-                        simulateChange(inputRef.current, onChange);
+                        innerInputRef.current.value = min;
+                        simulateChange(innerInputRef.current, onChange);
                     }
                     break;
                 default:
@@ -165,7 +179,7 @@ function Incrementer({
                 ),
                 ...otherInputProps
             }}
-            inputRef={inputRef}
+            inputRef={innerInputRef}
             onChange={onChange}
             type="number"
             value={value}
@@ -183,6 +197,7 @@ Incrementer.propTypes = {
     increaseIcon: PropTypes.node,
     inputProps: PropTypes.object,
     InputProps: PropTypes.object,
+    inputRef: PropTypes.oneOfType([PropTypes.func, PropTypes.shape({current: PropTypes.any})]),
     max: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     min: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     onChange: PropTypes.func,
