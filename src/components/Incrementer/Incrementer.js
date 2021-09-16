@@ -49,6 +49,7 @@ const SHORTCUT_KEYS = {
 
 function Incrementer({
     label,
+    disabled = false,
     id = useRef(uuidv4()).current,
     inputProps = null,
     InputProps = null,
@@ -115,6 +116,7 @@ function Incrementer({
             aria-valuemin={min}
             aria-valuemax={max}
             aria-valuenow={value}
+            disabled={disabled}
             id={id}
             onKeyDown={handleKeyDown}
             label={label}
@@ -135,7 +137,7 @@ function Incrementer({
                             aria-label={`Increase ${label}`}
                             className={[classes.incrementButton, classes.increaseButton].join(" ")}
                             color="primary"
-                            disabled={isNumbery(max) && Number(value) >= Number(max)}
+                            disabled={disabled || isNumbery(max) && Number(value) >= Number(max)}
                             disableRipple
                             edge="end"
                             onClick={handleIncrement("increase")}
@@ -150,7 +152,7 @@ function Incrementer({
                             aria-label={`Decrease ${label}`}
                             className={[classes.incrementButton, classes.decreaseButton].join(" ")}
                             color="primary"
-                            disabled={isNumbery(min) && Number(value) <= Number(min)}
+                            disabled={disabled || isNumbery(min) && Number(value) <= Number(min)}
                             disableRipple
                             edge="start"
                             onClick={handleIncrement("decrease")}
@@ -173,6 +175,7 @@ function Incrementer({
 
 Incrementer.propTypes = {
     label: PropTypes.string.isRequired,
+    disabled: PropTypes.bool,
     id: PropTypes.string,
     inputProps: PropTypes.object,
     InputProps: PropTypes.object,
