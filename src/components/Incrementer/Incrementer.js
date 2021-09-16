@@ -50,6 +50,8 @@ const SHORTCUT_KEYS = {
 function Incrementer({
     label,
     id = useRef(uuidv4()).current,
+    inputProps = null,
+    InputProps = null,
     max = null,
     min = 0,
     onChange = null,
@@ -104,6 +106,8 @@ function Incrementer({
         }
     }
 
+    const {classes: InputClasses, ...otherInputProps} = InputProps || {};
+
     return (
         <TextField
             aria-valuemin={min}
@@ -116,12 +120,14 @@ function Incrementer({
                 min,
                 onKeyDown: handleKeyDown,
                 step,
+                ...inputProps
             }}
             InputProps={{
                 classes: {
-                    input: classes.inputElement
+                    input: classes.inputElement,
+                    ...InputClasses
                 },
-                endAdornment:
+                endAdornment: (
                     <InputAdornment position="end">
                         <IconButton
                             aria-label={`Increase ${label}`}
@@ -134,8 +140,9 @@ function Incrementer({
                             tabIndex={-1}>
                             <IncreaseIcon />
                         </IconButton>
-                    </InputAdornment>,
-                startAdornment:
+                    </InputAdornment>
+                ),
+                startAdornment: (
                     <InputAdornment position="start">
                         <IconButton
                             aria-label={`Decrease ${label}`}
@@ -149,6 +156,8 @@ function Incrementer({
                             <DecreaseIcon />
                         </IconButton>
                     </InputAdornment>
+                ),
+                ...otherInputProps
             }}
             inputRef={inputRef}
             onChange={onChange}
@@ -163,6 +172,8 @@ function Incrementer({
 Incrementer.propTypes = {
     label: PropTypes.string.isRequired,
     id: PropTypes.string,
+    inputProps: PropTypes.object,
+    InputProps: PropTypes.object,
     max: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     min: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     onChange: PropTypes.func,
