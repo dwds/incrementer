@@ -55,7 +55,7 @@ function Incrementer({
     onChange = null,
     step = 1,
     stepLarge = 5,
-    value = 0,
+    value = "0",
     ...other
 }) {
     const inputRef = useRef(null);
@@ -127,7 +127,7 @@ function Incrementer({
                             aria-label={`Increase ${label}`}
                             className={[classes.incrementButton, classes.increaseButton].join(" ")}
                             color="primary"
-                            disabled={max && value >= max}
+                            disabled={isNumbery(max) && Number(value) >= Number(max)}
                             disableRipple
                             edge="end"
                             onClick={handleIncrement("increase")}
@@ -141,7 +141,7 @@ function Incrementer({
                             aria-label={`Decrease ${label}`}
                             className={[classes.incrementButton, classes.decreaseButton].join(" ")}
                             color="primary"
-                            disabled={value <= min}
+                            disabled={isNumbery(min) && Number(value) <= Number(min)}
                             disableRipple
                             edge="start"
                             onClick={handleIncrement("decrease")}
