@@ -35,6 +35,18 @@ function simulateChange(input, onChange) {
     }
 }
 
+function isNumbery(value) {
+    return (typeof value === "number" || typeof value === "string") && !isNaN(value);
+}
+
+
+const SHORTCUT_KEYS = {
+    LARGE_STEP_INCREASE: "PageUp",
+    LARGE_STEP_DECREASE: "PageDown",
+    GO_TO_MAX: "End",
+    GO_TO_MIN: "Home"
+};
+
 function Incrementer({
     label,
     id = useRef(uuidv4()).current,
@@ -49,54 +61,45 @@ function Incrementer({
     const inputRef = useRef(null);
     const classes = useStyles();
 
-    const handleDecreaseClick = () => {
-        inputRef.current?.stepDown();
-        simulateChange(inputRef.current, onChange);
-    }
-
-    const handleIncreaseClick = () => {
-        inputRef.current?.stepUp();
+    const handleIncrement = (direction: "increase", stepMultiplier: 1) => () => {
+        switch (direction) {
+            case "increase":
+                inputRef.current?.stepUp(stepMultiplier);
+                break;
+            case "decrease":
+                inputRef.current?.stepDown(stepMultiplier);
+                break;
+            default:
+                break;
+        }
         simulateChange(inputRef.current, onChange);
     }
 
     const handleKeyDown = (event) => {
-        if(inputRef.current) {
-            let preventDefault = false;
-            let change = false;
+        if(inputRef.current && Object.values(SHORTCUT_KEYS).includes(event.code)) {
+            event.preventDefault();
+            event.stopPropagation();
             switch (event.code) {
-                case "PageDown":
-                    inputRef.current.stepDown(stepLarge);
-                    change = true;
-                    preventDefault = true;
+                case SHORTCUT_KEYS.LARGE_STEP_INCREASE:
+                    handleIncrement("increase", stepLarge)();
                     break;
-                case "PageUp":
-                    inputRef.current.stepUp(stepLarge);
-                    change = true;
-                    preventDefault = true;
+                case SHORTCUT_KEYS.LARGE_STEP_DECREASE:
+                    handleIncrement("decrease", stepLarge)();
                     break;
-                case "Home":
-                    if(min) {
-                        inputRef.current.value = min;
-                        change = true;
-                    }
-                    preventDefault = true;
-                    break;
-                case "End":
-                    if(max) {
+                case SHORTCUT_KEYS.GO_TO_MAX:
+                    if(isNumbery(max)) {
                         inputRef.current.value = max;
-                        change = true;
+                        simulateChange(inputRef.current, onChange);
                     }
-                    preventDefault = true;
+                    break;
+                case SHORTCUT_KEYS.GO_TO_MIN:
+                    if(isNumbery(min)) {
+                        inputRef.current.value = min;
+                        simulateChange(inputRef.current, onChange);
+                    }
                     break;
                 default:
                     break;
-            }
-            if (preventDefault) {
-                event.preventDefault();
-                event.stopPropagation();
-            }
-            if (change) {
-                simulateChange(inputRef.current, onChange);
             }
         }
     }
@@ -127,7 +130,7 @@ function Incrementer({
                             disabled={max && value >= max}
                             disableRipple
                             edge="end"
-                            onClick={handleIncreaseClick}
+                            onClick={handleIncrement("increase")}
                             tabIndex={-1}>
                             <IncreaseIcon />
                         </IconButton>
@@ -141,7 +144,7 @@ function Incrementer({
                             disabled={value <= min}
                             disableRipple
                             edge="start"
-                            onClick={handleDecreaseClick}
+                            onClick={handleIncrement("decrease")}
                             tabIndex={-1}>
                             <DecreaseIcon />
                         </IconButton>

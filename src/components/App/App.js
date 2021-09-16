@@ -13,7 +13,7 @@ function App() {
         <Incrementer
             helperText="Maximum: 10"
             label="Tickets"
-            max={10}
+            max="10"
             onChange={handleChange}
             value={value}
         />
