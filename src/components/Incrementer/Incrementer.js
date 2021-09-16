@@ -6,13 +6,13 @@ import {AddCircleRounded as DefaultIncreaseIcon, RemoveCircleRounded as DefaultD
 
 const useStyles = makeStyles(theme => ({
     root: {
-        color: theme.palette.text.primary
+        color: theme.palette.text.primary,
+        width: props => props.fullWidth  ? null : `calc(${props.max.toString().length}ch + 125px)`,
     },
     helperText: {
         color: "inherit"
     },
     inputElement: {
-        width: props => props.fullWidth  ? null : `${props.max.toString().length}ch`,
         textAlign: "center",
         "-moz-appearance": "textfield",
         "&::-webkit-inner-spin-button, &::-webkit-outer-spin-button": {
@@ -62,9 +62,12 @@ const SHORTCUT_KEYS = {
 
 const Incrementer = forwardRef(({
     label,
+    error = false,
     decreaseIcon: DecreaseIcon = DefaultDecreaseIcon,
+    disableBrowserErrorText = false,
     disabled = false,
     fullWidth = false,
+    helperText = null,
     id = useRef(uuidv4()).current,
     increaseIcon: IncreaseIcon = DefaultIncreaseIcon,
     inputProps = null,
@@ -79,8 +82,10 @@ const Incrementer = forwardRef(({
     value = "0",
     ...other
 }, ref) => {
-    const innerInputRef = useForwardedRef(inputRef);
     const classes = useStyles({fullWidth, max});
+    const innerInputRef = useForwardedRef(inputRef);
+    const {classes: InputClasses, ...otherInputProps} = InputProps || {};
+    const htmlInvalid = innerInputRef.current && !innerInputRef.current.validity.valid;
 
     const handleIncrement = (direction: "increase", stepMultiplier: 1) => () => {
         switch (direction) {
@@ -96,7 +101,11 @@ const Incrementer = forwardRef(({
         simulateChange(innerInputRef.current, onChange);
     }
 
-    const handleKeyDown = (event) => {
+    const handleInvalid = event => {
+        disableBrowserErrorText && event.preventDefault();
+    }
+
+    const handleKeyDown = event => {
         if(innerInputRef.current && Object.values(SHORTCUT_KEYS).includes(event.code)) {
             event.preventDefault();
             event.stopPropagation();
@@ -125,20 +134,25 @@ const Incrementer = forwardRef(({
         }
     }
 
-    const {classes: InputClasses, ...otherInputProps} = InputProps || {};
-
     return (
         <TextField
+            classes={{
+                root: classes.root
+            }}
             disabled={disabled}
+            error={error || htmlInvalid}
             id={id}
             fullWidth={fullWidth}
+            helperText={(!disableBrowserErrorText && htmlInvalid && innerInputRef.current.validationMessage) || helperText}
             inputProps={{
+                "aria-invalid": error || htmlInvalid,
                 "aria-valuemin": min,
                 "aria-valuemax": max,
                 "aria-valuenow": value,
                 "aria-valuetext": userFriendlyValue,
                 max,
                 min,
+                onInvalid: handleInvalid,
                 onKeyDown: handleKeyDown,
                 step,
                 ...inputProps
@@ -195,8 +209,11 @@ const Incrementer = forwardRef(({
 Incrementer.propTypes = {
     label: PropTypes.string.isRequired,
     decreaseIcon: PropTypes.node,
+    disableBrowserErrorText: PropTypes.bool,
     disabled: PropTypes.bool,
+    error: PropTypes.bool,
     fullWidth: PropTypes.bool,
+    helperText: PropTypes.node,
     id: PropTypes.string,
     increaseIcon: PropTypes.node,
     inputProps: PropTypes.object,

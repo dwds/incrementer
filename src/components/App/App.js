@@ -11,14 +11,18 @@ function App() {
     }
 
     return (
-        <Incrementer
-            inputRef={inputRef}
-            helperText="Maximum: 10"
-            label="Tickets"
-            max="10"
-            onChange={handleChange}
-            value={value}
-        />
+        <form>
+            <Incrementer
+                inputRef={inputRef}
+                helperText="Maximum: 10"
+                label="Tickets"
+                max="1000"
+                step="2"
+                onChange={handleChange}
+                value={value}
+            />
+            <button type="submit">Submit</button>
+        </form>
     )
 }
 
