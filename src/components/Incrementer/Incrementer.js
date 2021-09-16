@@ -58,6 +58,7 @@ function Incrementer({
     onChange = null,
     step = 1,
     stepLarge = 5,
+    userFriendlyValue = null,
     value = "0",
     ...other
 }) {
@@ -118,6 +119,7 @@ function Incrementer({
                 "aria-valuemin": min,
                 "aria-valuemax": max,
                 "aria-valuenow": value,
+                "aria-valuetext": userFriendlyValue,
                 max,
                 min,
                 onKeyDown: handleKeyDown,
@@ -182,6 +184,7 @@ Incrementer.propTypes = {
     onChange: PropTypes.func,
     step: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     stepLarge: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    userFriendlyValue: PropTypes.string,
     value: PropTypes.any
 };
 
