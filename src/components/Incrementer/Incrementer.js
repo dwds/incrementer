@@ -1,7 +1,7 @@
 import React, {useRef} from "react";
 import PropTypes from 'prop-types';
 import {v4 as uuidv4} from 'uuid';
-import {IconButton, InputAdornment,TextField, makeStyles} from "@material-ui/core";
+import {IconButton, InputAdornment, TextField, makeStyles} from "@material-ui/core";
 import {AddCircleRounded as IncreaseIcon, RemoveCircleRounded as DecreaseIcon} from "@material-ui/icons";
 
 const useStyles = makeStyles(theme => ({
@@ -62,29 +62,29 @@ function Incrementer({
     const handleKeyDown = (event) => {
         if(inputRef.current) {
             let preventDefault = false;
-            let simulateChange = false;
+            let change = false;
             switch (event.code) {
                 case "PageDown":
                     inputRef.current.stepDown(stepLarge);
-                    simulateChange = true;
+                    change = true;
                     preventDefault = true;
                     break;
                 case "PageUp":
                     inputRef.current.stepUp(stepLarge);
-                    simulateChange = true;
+                    change = true;
                     preventDefault = true;
                     break;
                 case "Home":
                     if(min) {
                         inputRef.current.value = min;
-                        simulateChange = true;
+                        change = true;
                     }
                     preventDefault = true;
                     break;
                 case "End":
                     if(max) {
                         inputRef.current.value = max;
-                        simulateChange = true;
+                        change = true;
                     }
                     preventDefault = true;
                     break;
@@ -95,7 +95,7 @@ function Incrementer({
                 event.preventDefault();
                 event.stopPropagation();
             }
-            if (simulateChange) {
+            if (change) {
                 simulateChange(inputRef.current, onChange);
             }
         }
@@ -108,10 +108,10 @@ function Incrementer({
             aria-valuenow={value}
             id={id}
             label={label}
-            InputLabelProps={{disableAnimation: true}}
             inputProps={{
                 max,
                 min,
+                onKeyDown: handleKeyDown,
                 step,
             }}
             InputProps={{
@@ -132,7 +132,6 @@ function Incrementer({
                             <IncreaseIcon />
                         </IconButton>
                     </InputAdornment>,
-                onKeyDown: handleKeyDown,
                 startAdornment:
                     <InputAdornment position="start">
                         <IconButton
@@ -149,6 +148,7 @@ function Incrementer({
                     </InputAdornment>
             }}
             inputRef={inputRef}
+            onChange={onChange}
             type="number"
             value={value}
             variant="outlined"
