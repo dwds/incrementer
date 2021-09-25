@@ -1,6 +1,6 @@
 import React from "react";
 // import styles from './App.module.css';
-import {Typography, Table, TableHead, TableBody, TableRow, TableCell} from "@material-ui/core";
+import {Link, Typography, Table, TableHead, TableBody, TableRow, TableCell} from "@material-ui/core";
 
 const INCREMENTER_PROPS = [
     {
@@ -98,6 +98,7 @@ function PropsTable() {
                     ))}
                 </TableBody>
             </Table>
+            <Typography>Any other props supplied will be provided to the root element (<Link underline="always" href="https://v4.mui.com/api/text-field/">TextField</Link>).</Typography>
         </>
     )
 }
