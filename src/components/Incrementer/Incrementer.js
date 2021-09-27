@@ -6,8 +6,8 @@ import {AddCircleRounded as DefaultIncreaseIcon, RemoveCircleRounded as DefaultD
 
 const useStyles = makeStyles(theme => ({
     root: {
-        width: props => props.fullWidth  ? null : `calc(${props.max.toString().length}ch + 125px)`,
-        color: theme.palette.text.primary,
+        width: props => props.fullWidth ? null : (typeof props.max !== "number" && typeof props.max !== "string") ? "calc(4ch + 125px)" : `calc(${props.max.toString().length}ch + 125px)`,
+        color: theme.palette.text.primary
     },
     helperText: {
         color: "inherit"
