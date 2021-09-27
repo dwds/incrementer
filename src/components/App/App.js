@@ -102,7 +102,7 @@ function App() {
                         The hover, focus, error, and disabled <b>states have distinct styling</b>.
                     </Typography>
                     <Typography component="li" gutterBottom>
-                        <b>Conrast of text and border colors</b> has been adjusted, as the Material-UI defaults do not comply with WCAG criteria <Link underline="always" href="https://www.w3.org/TR/WCAG21/#non-text-contrast">1.4.11 Non-text Contrast</Link> or <Link underline="always" href="https://www.w3.org/TR/WCAG21/#contrast-enhanced">1.4.6 Contrast (Enhanced)</Link>
+                        <b>Contrast of text and border colors</b> has been adjusted, as the Material-UI defaults do not comply with WCAG criteria <Link underline="always" href="https://www.w3.org/TR/WCAG21/#non-text-contrast">1.4.11 Non-text Contrast</Link> or <Link underline="always" href="https://www.w3.org/TR/WCAG21/#contrast-enhanced">1.4.6 Contrast (Enhanced)</Link>
                     </Typography>
                 </ul>
             </DocSection>
