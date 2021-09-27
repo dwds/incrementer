@@ -4,9 +4,10 @@ import {v4 as uuidv4} from 'uuid';
 import {IconButton, InputAdornment, TextField, makeStyles} from "@material-ui/core";
 import {AddCircleRounded as DefaultIncreaseIcon, RemoveCircleRounded as DefaultDecreaseIcon} from "@material-ui/icons";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
     root: {
         width: props => props.fullWidth  ? null : `calc(${props.max.toString().length}ch + 125px)`,
+        color: theme.palette.text.primary,
     },
     helperText: {
         color: "inherit"
@@ -19,12 +20,17 @@ const useStyles = makeStyles({
           margin: 0
         }
     },
-    label: {
-        position: "static",
-        transform: "none",
+    inputRoot: {
         color: "inherit"
+    },
+    label: {
+        color: "inherit"
+    },
+    outline: {
+        color: "inherit",
+        borderColor: "currentColor"
     }
-});
+}));
 
 function useForwardedRef(ref) {
     const innerRef = useRef(null);
@@ -64,10 +70,12 @@ const Incrementer = forwardRef(({
     decreaseIcon: DecreaseIcon = DefaultDecreaseIcon,
     disableBrowserErrorText = false,
     disabled = false,
+    FormHelperTextProps = null,
     fullWidth = false,
     helperText = null,
     id = useRef(uuidv4()).current,
     increaseIcon: IncreaseIcon = DefaultIncreaseIcon,
+    InputLabelProps = null,
     inputProps = null,
     InputProps = null,
     inputRef = null,
@@ -82,7 +90,6 @@ const Incrementer = forwardRef(({
 }, ref) => {
     const classes = useStyles({fullWidth, max});
     const innerInputRef = useForwardedRef(inputRef);
-    const {classes: InputClasses, ...otherInputProps} = InputProps || {};
     const htmlInvalid = innerInputRef.current && !innerInputRef.current.validity.valid;
 
     const handleIncrement = (direction: "increase", stepMultiplier: 1) => () => {
@@ -140,8 +147,20 @@ const Incrementer = forwardRef(({
             disabled={disabled}
             error={error || htmlInvalid}
             id={id}
+            FormHelperTextProps={{
+                classes: {
+                    root: classes.helperText
+                },
+                ...FormHelperTextProps
+            }}
             fullWidth={fullWidth}
             helperText={(!disableBrowserErrorText && htmlInvalid && innerInputRef.current.validationMessage) || helperText}
+            InputLabelProps={{
+                classes: {
+                    root: classes.label
+                },
+                ...InputLabelProps
+            }}
             inputProps={{
                 "aria-invalid": error || htmlInvalid,
                 "aria-valuemin": min,
@@ -157,8 +176,9 @@ const Incrementer = forwardRef(({
             }}
             InputProps={{
                 classes: {
+                    root: classes.inputRoot,
                     input: classes.inputElement,
-                    ...InputClasses
+                    notchedOutline: classes.outline,
                 },
                 endAdornment: (
                     <InputAdornment position="end">
@@ -190,7 +210,7 @@ const Incrementer = forwardRef(({
                         </IconButton>
                     </InputAdornment>
                 ),
-                ...otherInputProps
+                ...InputProps
             }}
             inputRef={innerInputRef}
             label={label}
@@ -210,10 +230,12 @@ Incrementer.propTypes = {
     disableBrowserErrorText: PropTypes.bool,
     disabled: PropTypes.bool,
     error: PropTypes.bool,
+    FormHelperTextProps: PropTypes.object,
     fullWidth: PropTypes.bool,
     helperText: PropTypes.node,
     id: PropTypes.string,
     increaseIcon: PropTypes.node,
+    InputLabelProps: PropTypes.object,
     inputProps: PropTypes.object,
     InputProps: PropTypes.object,
     inputRef: PropTypes.oneOfType([PropTypes.func, PropTypes.shape({current: PropTypes.any})]),
