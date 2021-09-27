@@ -22,3 +22,8 @@
     background-color: #202020;
     color: white;
 }
+
+.inputDemoContainer {
+    display: flex;
+    gap: 24px;
+}

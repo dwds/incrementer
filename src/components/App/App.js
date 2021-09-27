@@ -6,10 +6,19 @@ import {DocSection} from "../DocSection";
 import {Link, Typography} from "@material-ui/core";
 
 function App() {
-    const [value, setValue] = useState(0);
+    const [inputValues, setInputValues] = useState({
+        basic: "0",
+        noMinMax: "0",
+        step2: "0",
+        error: "0",
+        disabled: "0"
+    });
 
-    const handleChange = (event) => {
-        setValue(event.target.value);
+    const handleChange = inputName => event => {
+        setInputValues({
+            ...inputValues,
+            [inputName]: event.target.value
+        });
     }
 
     return (
@@ -32,8 +41,8 @@ function App() {
                                 helperText="Maximum: 10"
                                 label="Tickets"
                                 max="10"
-                                onChange={handleChange}
-                                value={value}
+                                onChange={handleChange("basic")}
+                                value={inputValues.basic}
                             />
                         </form>
                         <Typography style={{marginTop: 24}}>Try these shortcuts:</Typography>
@@ -106,8 +115,42 @@ function App() {
                 </ul>
             </DocSection>
 
-            <DocSection title="States and Variants">
-                <Typography>States and variants section</Typography>
+            <DocSection title="States and Options">
+                <div className={styles.demo}>
+                    <div className={styles.inputDemoContainer}>
+                        <Incrementer
+                            label="No max or min"
+                            helperText="This input has no maximum or minimum value."
+                            min={null}
+                            onChange={handleChange("noMinMax")}
+                            value={inputValues.noMinMax}
+                        />
+                        <Incrementer
+                            label="Step of 2"
+                            helperText="This input will increment by 2."
+                            step={2}
+                            max={20}
+                            onChange={handleChange("step2")}
+                            value={inputValues.step2}
+                        />
+                        <Incrementer
+                            label="Error State"
+                            helperText="This input is in an error state."
+                            error={true}
+                            max={10}
+                            onChange={handleChange("error")}
+                            value={inputValues.error}
+                        />
+                        <Incrementer
+                            label="Disabled"
+                            helperText="This input is disabled."
+                            disabled
+                            max={10}
+                            onChange={handleChange("disabled")}
+                            value={inputValues.disabled}
+                        />
+                    </div>
+                </div>
             </DocSection>
 
             <DocSection title="Custom Styling">
