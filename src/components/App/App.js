@@ -154,7 +154,7 @@ function App() {
             </DocSection>
 
             <DocSection title="Custom Styling">
-                <Typography>Custom Styling section</Typography>
+                <Typography>The appearance of the Incrementer component is completely customizable thanks to <Link underline="always" href="https://v4.mui.com/customization/components/">Material-UI&apos;s styling solutions</Link>.</Typography>
             </DocSection>
 
             <DocSection>
