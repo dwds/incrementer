@@ -36,7 +36,7 @@ function App() {
                                 value={value}
                             />
                         </form>
-                        <Typography>Try these shortcuts:</Typography>
+                        <Typography style={{marginTop: 24}}>Try these shortcuts:</Typography>
                         <ul style={{margin: 0, padding: 0, listStylePosition: "inside"}}>
                             <Typography component="li"><b>Arrow Up/Arrow Down</b>: Increment/decrement by one step</Typography>
                             <Typography component="li"><b>Page Up/Page Down</b>: Increment/decrement by five steps</Typography>
@@ -54,7 +54,6 @@ function App() {
 />`}
                     </code></pre>
                 </div>
-
             </DocSection>
 
             <DocSection title="Accessibility">
