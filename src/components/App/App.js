@@ -80,7 +80,7 @@ function App() {
                         The <b>aria attributes</b> <code>aria-valuemin</code>, <code>aria-valuemax</code>, and <code>aria-valuenow</code> are automatically applied to the <code>&lt;input&gt;</code> element. If needed, <code>aria-valuetext</code> can be set via the <code>userFriendlyValue</code> prop.
                     </Typography>
                     <Typography component="li" gutterBottom>
-                        The <b><code>aria-invalid</code></b> attribute is automatically set to <code>true</code> if either the input is invalid due to validation contsraints or the <code>error</code> prop is explicitly set to <code>true</code>.
+                        The <b><code>aria-invalid</code></b> attribute is automatically set to <code>true</code> if either the input is invalid due to validation constraints or the <code>error</code> prop is explicitly set to <code>true</code>.
                     </Typography>
                     <Typography component="li" gutterBottom>
                         <b>Keyboard shortcuts</b>:
@@ -103,7 +103,7 @@ function App() {
                         <b>Validation constraints</b> (min, max, step, and required) are passed to the <code>&lt;input&gt;</code> element as HTML attributes, making them machine readable for browsers and screen readers.
                     </Typography>
                     <Typography component="li" gutterBottom>
-                        The input is <b>prevented from being set to an invalid value</b> via the keyboard shortcuts or by activating the increment/decrement buttons. (This relies on the browser&apos;s implmentation of <code>{'<input type="number">'}</code>.) An invalid value may still be typed manually.
+                        The input is <b>prevented from being set to an invalid value</b> via the keyboard shortcuts or by activating the increment/decrement buttons. (This relies on the browser&apos;s implementation of <code>{'<input type="number">'}</code>.) An invalid value may still be typed manually.
                     </Typography>
                     <Typography component="li" gutterBottom>
                         When the value is invalid, a <b>descriptive error message</b> is displayed directly below the input. This relies on the browser&apos;s native HTML validation, which (in modern browsers) provides a dynamic and specific message based on the current value and the constraints. If you would like to customize the error message, you can turn off this feature via the <code>disableBrowserErrorText</code> prop and pass in your own message via <code>helperText</code>.

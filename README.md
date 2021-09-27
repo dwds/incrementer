@@ -14,7 +14,7 @@ View a live demo at https://derekds.com/dev/incrementer/
 
 The Incrementer component was developed in accordance with the [WAI-ARIA Authoring Practices for spinbuttons](https://www.w3.org/TR/wai-aria-practices-1.1/#spinbutton).
 
-- The **label and helperText are associated with the input** via the `for` and `aria-describedby` attributes, respectively. This is done with an automatically genrated unique `id` using uuid. You can pass in your own id instead, if needed.
+- The **label and helperText are associated with the input** via the `for` and `aria-describedby` attributes, respectively. This is done with an automatically genrated unique `id` using [uuid](https://github.com/uuidjs/uuid). You can pass in your own id instead, if needed.
 - The `<input>` element has the **spinbutton role** (inherent to `<input type="number">`).
 - The **aria attributes** `aria-valuemin`, `aria-valuemax`, and `aria-valuenow` are automatically applied to the `<input>` element. If needed, `aria-valuetext` can be set via the `userFriendlyValue` prop.
 - The `**aria-invalid**` attribute is automatically set to `true` if either the input is invalid due to validation contsraints or the `error` prop is explicitly set to `true`.
@@ -41,7 +41,7 @@ The appearance of the Incrementer component is completely customizable thanks to
 
 |Name|Type|Default|Description|
 |--- |--- |--- |--- |
-| `descreaseIcon` | `node` | `<RemoveCircleRounded>` | The icon component to use for the decrease button. |
+| `decreaseIcon` | `node` | `<RemoveCircleRounded>` | The icon component to use for the decrease button. |
 | `disableBrowserErrorText` | `boolean` | `false` | By default, the helperText will display the native browser error message when the input is in an invalid state. If true, this feature will be disabled. |
 | `increaseIcon` | `node` | `<AddCircleRounded>` | The icon component to use for the increase button. |
 | `label` | `string` | | The input's label. This is required for accessibility. |

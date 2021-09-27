@@ -4,7 +4,7 @@ import {Link, Typography, Table, TableHead, TableBody, TableRow, TableCell} from
 
 const INCREMENTER_PROPS = [
     {
-        name: "descreaseIcon",
+        name: "decreaseIcon",
         type: "node",
         default: "<RemoveCircleRounded>",
         description: "The icon component to use for the decrease button."
@@ -48,7 +48,7 @@ const INCREMENTER_PROPS = [
         name: "stepLarge",
         type: "number or string",
         default: "5",
-        description: "The amount to increase or descrease the value (as a multiple of step) when the value is incremented with the PgUp and PgDn keys."
+        description: "The amount to increase or decrease the value (as a multiple of step) when the value is incremented with the PgUp and PgDn keys."
     },
     {
         name: "userFriendlyValue",
