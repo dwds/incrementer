@@ -31,7 +31,9 @@ function App() {
 
             <Typography gutterBottom>This is a portfolio example of how I might build an accessible input for a component library using React and <Link underline="always" href="https://mui.com/">Material-UI</Link>.</Typography>
 
-            <Typography>The component builds upon the patterns of Material-UI, and comes with additional built-in features like <b>keyboard shortcuts</b>, <b>validation and error messages</b>, recommended <b>WAI-ARIA practices</b> for <Link underline="always" href="https://www.w3.org/TR/wai-aria-practices-1.1/#spinbutton">spinbutton widgets</Link>, a <b>unique id</b> for associating the label/input/helper-text, and <b>fully customizable and themable styling</b>.</Typography>
+            <Typography gutterBottom>The component builds upon the patterns of Material-UI, and comes with additional built-in features like <b>keyboard shortcuts</b>, <b>validation and error messages</b>, recommended <b>WAI-ARIA practices</b> for <Link underline="always" href="https://www.w3.org/TR/wai-aria-practices-1.1/#spinbutton">spinbutton widgets</Link>, a <b>unique id</b> for associating the label/input/helper-text, and <b>fully customizable and themable styling</b>.</Typography>
+
+            <Typography>You can <Link underline="always" href="https://github.com/dwds/incrementer">view the code for this project on GitHub</Link>.</Typography>
 
             <DocSection title="Demo">
                 <div className={styles.demo}>
